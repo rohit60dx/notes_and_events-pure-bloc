@@ -17,6 +17,19 @@ class EventEventAdd extends EventEvent {
 
 class EventGetEvents extends EventEvent {}
 
+
+class EventUpdateEvent extends EventEvent {
+  EventUpdateEvent({
+    required this.event,
+     this.evenID,
+  });
+  final EventEntity event;
+   String? evenID;
+  @override
+  List<Object?> get props => [event];
+}
+
+
 class EventDeleteEvent extends EventEvent {
   EventDeleteEvent({
     required this.id,

@@ -17,6 +17,20 @@ class FirebaseDatabase {
         .catchError((error) => print('Failed to add event: $error'));
   }
 
+  Future<void> updateEvent(EventEntity event) async {
+    QuerySnapshot query = await FirebaseFirestore.instance
+        .collection('events')
+        .where('id', isEqualTo: event.id)
+        .get();
+
+    await FirebaseFirestore.instance
+        .collection('events')
+        .doc(query.docs.first.id)
+        .update(event.toJson())
+        .then((_) => print('Event Updated'))
+        .catchError((error) => print('Failed to update event: $error'));
+  }
+
   Future<void> deleteById(String id) async {
     await FirebaseFirestore.instance
         .collection('events')

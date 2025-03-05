@@ -32,12 +32,16 @@ class EventView extends StatelessWidget {
 }
 
 class _EventListWidget extends StatelessWidget {
-  const _EventListWidget({
+  _EventListWidget({
     Key? key,
     required this.events,
   }) : super(key: key);
 
   final List<EventEntity> events;
+
+  TextEditingController _upateTitleController = TextEditingController();
+  TextEditingController _updateDescriptionController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -51,11 +55,79 @@ class _EventListWidget extends StatelessWidget {
                   EventDeleteEvent(id: events[index].id),
                 ),
           ),
+          leading: IconButton(
+              icon: const Icon(Icons.edit, color: Colors.grey),
+              onPressed: () {
+                final event = EventEntity(
+                  id: events[index].id,
+                  title: "titleController.text",
+                  description: "descriptionController.text",
+                  starts: DateTime.now(),
+                  ends: DateTime.now().add(const Duration(days: 1)),
+                  ownerUserId: 'Rohit Kumar',
+                );
+                context.read<EventBloc>().add(EventUpdateEvent(event: event));
+        
+                // showEventModal(events[index].id, events[index].title,
+                //     events[index].description, context);
+              }),
         );
       },
       itemCount: events.length,
     );
   }
+showEventModal(String eventID, String title, String description, BuildContext context) async {
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+
+  titleController.text = title;
+  descriptionController.text = description;
+  
+  return showModal<void>(
+    context: context,
+    backgroundColor: Colors.grey.shade200,
+    constraints: BoxConstraints(
+      maxHeight: MediaQuery.of(context).size.height * 0.6,
+    ),
+    builder: (modalContext) {
+      return Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const _HeaderModal(),
+            _TitleTextField(controller: titleController),
+            const SizedBox(height: 16.0),
+            _DescriptionTextField(controller: descriptionController),
+            const Spacer(),
+            _AddEventButton(
+              callback: () {
+                if (titleController.text.isEmpty || descriptionController.text.isEmpty) {
+                  return;
+                }
+                final event = EventEntity(
+                  id: eventID,
+                  title: titleController.text,
+                  description: descriptionController.text,
+                  starts: DateTime.now(),
+                  ends: DateTime.now().add(const Duration(days: 1)),
+                  ownerUserId: 'Rohit Kumar',
+                );
+                // Use modalContext to access the provider
+                modalContext.read<EventBloc>().add(EventUpdateEvent(event: event));
+                Navigator.pop(modalContext); // Use modalContext to pop
+              },
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+
+
+
 }
 
 class _FloatingActionButtonWidget extends StatefulWidget {
