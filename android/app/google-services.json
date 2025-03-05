@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "699894182257",
+    "project_id": "note-bloc-app",
+    "storage_bucket": "note-bloc-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:699894182257:android:039fc7b46a3ef6cbfdc6d0",
+        "android_client_info": {
+          "package_name": "com.example.notes_and_events"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBnQ2avJA9S6GwwuNDfe_yv8_iGjrey2s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
