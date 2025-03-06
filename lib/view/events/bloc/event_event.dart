@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 part of 'event_bloc.dart';
 
 class EventEvent extends Equatable {
@@ -21,10 +23,8 @@ class EventGetEvents extends EventEvent {}
 class EventUpdateEvent extends EventEvent {
   EventUpdateEvent({
     required this.event,
-     this.evenID,
   });
   final EventEntity event;
-   String? evenID;
   @override
   List<Object?> get props => [event];
 }

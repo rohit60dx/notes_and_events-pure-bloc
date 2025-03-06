@@ -39,7 +39,6 @@ class _EventListWidget extends StatelessWidget {
 
   final List<EventEntity> events;
 
-
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -56,16 +55,6 @@ class _EventListWidget extends StatelessWidget {
           leading: IconButton(
               icon: const Icon(Icons.edit, color: Colors.grey),
               onPressed: () {
-                // final event = EventEntity(
-                //   id: events[index].id,
-                //   title: "titleController.text",
-                //   description: "descriptionController.text",
-                //   starts: DateTime.now(),
-                //   ends: DateTime.now().add(const Duration(days: 1)),
-                //   ownerUserId: 'Rohit Kumar',
-                // );
-                // context.read<EventBloc>().add(EventUpdateEvent(event: event));
-
                 showEventModal(events[index].id, events[index].title,
                     events[index].description, context);
               }),
@@ -75,67 +64,57 @@ class _EventListWidget extends StatelessWidget {
     );
   }
 
- showEventModal(String eventID, String title, String description, BuildContext context) async {
-  final TextEditingController titleController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
+  showEventModal(String eventID, String title, String description,
+      BuildContext context) async {
+    final TextEditingController titleController = TextEditingController();
+    final TextEditingController descriptionController = TextEditingController();
 
-  titleController.text = title;
-  descriptionController.text = description;
+    titleController.text = title;
+    descriptionController.text = description;
 
-  return showModalBottomSheet(
-    context: context,
-    backgroundColor: Colors.grey.shade200,
-    constraints: BoxConstraints(
-      maxHeight: MediaQuery.of(context).size.height * 0.6,
-    ),
-    builder: (modalContext) {
-      return Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const _HeaderModal(),
-            _TitleTextField(controller: titleController),
-            const SizedBox(height: 16.0),
-            _DescriptionTextField(controller: descriptionController),
-            const Spacer(),
-            ElevatedButton(
-              onPressed: () {
-                if (titleController.text.isEmpty || descriptionController.text.isEmpty) {
-                  return;
-                }
-                final event = EventEntity(
-                  id: eventID,
-                  title: titleController.text,
-                  description: descriptionController.text,
-                  starts: DateTime.now(),
-                  ends: DateTime.now().add(const Duration(days: 1)),
-                  ownerUserId: 'Rohit Kumar',
-                );
-                context.read<EventBloc>().add(EventUpdateEvent(event: event));
-                Navigator.pop(modalContext); 
-              },
-              child: const Text("Update Event"),
-            ),
-          ],
-        ),
-      );
-    },
-  );
+    return showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.grey.shade200,
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.6,
+      ),
+      builder: (modalContext) {
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const _HeaderModal(),
+              _TitleTextField(controller: titleController),
+              const SizedBox(height: 16.0),
+              _DescriptionTextField(controller: descriptionController),
+              const Spacer(),
+              ElevatedButton(
+                onPressed: () {
+                  if (titleController.text.isEmpty ||
+                      descriptionController.text.isEmpty) {
+                    return;
+                  }
+                  final event = EventEntity(
+                    id: eventID,
+                    title: titleController.text,
+                    description: descriptionController.text,
+                    starts: DateTime.now(),
+                    ends: DateTime.now().add(const Duration(days: 1)),
+                    ownerUserId: 'Rohit Kumar',
+                  );
+                  context.read<EventBloc>().add(EventUpdateEvent(event: event));
+                  Navigator.pop(modalContext);
+                },
+                child: const Text("Update Event"),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 }
-
-
-
-}
-
-
-
-
-
-
-
-
-
 
 class _FloatingActionButtonWidget extends StatefulWidget {
   const _FloatingActionButtonWidget({Key? key}) : super(key: key);
@@ -217,14 +196,18 @@ class _HeaderModal extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.close),
-          ),
           Text(
             'New event data',
             style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          CircleAvatar(
+            backgroundColor: Colors.grey.shade300,
+            child: IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: const Icon(Icons.close),
+            ),
           ),
         ],
       ),
