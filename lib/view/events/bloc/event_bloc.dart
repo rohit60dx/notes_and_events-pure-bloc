@@ -36,8 +36,8 @@ class EventBloc extends Bloc<EventEvent, EventState> {
   Future<void> _onUpdateEvent(
       EventUpdateEvent event, Emitter<EventState> emit) async {
     try {
-      emit(state.copyWith(status: EventStatus.loading));
-      await eventRepository.updateEvent( event.event);
+      // emit(state.copyWith(status: EventStatus.loading));
+      await eventRepository.updateEvent(event.event);
       emit(state.copyWith(status: EventStatus.success));
     } catch (error) {
       emit(state.copyWith(status: EventStatus.error));
