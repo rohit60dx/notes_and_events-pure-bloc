@@ -112,9 +112,8 @@ class _EventListWidget extends StatelessWidget {
                   ends: DateTime.now().add(const Duration(days: 1)),
                   ownerUserId: 'Rohit Kumar',
                 );
-                // Use the parent context to access the provider
                 context.read<EventBloc>().add(EventUpdateEvent(event: event));
-                Navigator.pop(modalContext); // Pop the modal using modalContext
+                Navigator.pop(modalContext); 
               },
               child: const Text("Update Event"),
             ),
