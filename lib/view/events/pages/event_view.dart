@@ -39,8 +39,6 @@ class _EventListWidget extends StatelessWidget {
 
   final List<EventEntity> events;
 
-  TextEditingController _upateTitleController = TextEditingController();
-  TextEditingController _updateDescriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -58,32 +56,33 @@ class _EventListWidget extends StatelessWidget {
           leading: IconButton(
               icon: const Icon(Icons.edit, color: Colors.grey),
               onPressed: () {
-                final event = EventEntity(
-                  id: events[index].id,
-                  title: "titleController.text",
-                  description: "descriptionController.text",
-                  starts: DateTime.now(),
-                  ends: DateTime.now().add(const Duration(days: 1)),
-                  ownerUserId: 'Rohit Kumar',
-                );
-                context.read<EventBloc>().add(EventUpdateEvent(event: event));
-        
-                // showEventModal(events[index].id, events[index].title,
-                //     events[index].description, context);
+                // final event = EventEntity(
+                //   id: events[index].id,
+                //   title: "titleController.text",
+                //   description: "descriptionController.text",
+                //   starts: DateTime.now(),
+                //   ends: DateTime.now().add(const Duration(days: 1)),
+                //   ownerUserId: 'Rohit Kumar',
+                // );
+                // context.read<EventBloc>().add(EventUpdateEvent(event: event));
+
+                showEventModal(events[index].id, events[index].title,
+                    events[index].description, context);
               }),
         );
       },
       itemCount: events.length,
     );
   }
-showEventModal(String eventID, String title, String description, BuildContext context) async {
+
+ showEventModal(String eventID, String title, String description, BuildContext context) async {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
 
   titleController.text = title;
   descriptionController.text = description;
-  
-  return showModal<void>(
+
+  return showModalBottomSheet(
     context: context,
     backgroundColor: Colors.grey.shade200,
     constraints: BoxConstraints(
@@ -100,8 +99,8 @@ showEventModal(String eventID, String title, String description, BuildContext co
             const SizedBox(height: 16.0),
             _DescriptionTextField(controller: descriptionController),
             const Spacer(),
-            _AddEventButton(
-              callback: () {
+            ElevatedButton(
+              onPressed: () {
                 if (titleController.text.isEmpty || descriptionController.text.isEmpty) {
                   return;
                 }
@@ -113,10 +112,11 @@ showEventModal(String eventID, String title, String description, BuildContext co
                   ends: DateTime.now().add(const Duration(days: 1)),
                   ownerUserId: 'Rohit Kumar',
                 );
-                // Use modalContext to access the provider
-                modalContext.read<EventBloc>().add(EventUpdateEvent(event: event));
-                Navigator.pop(modalContext); // Use modalContext to pop
+                // Use the parent context to access the provider
+                context.read<EventBloc>().add(EventUpdateEvent(event: event));
+                Navigator.pop(modalContext); // Pop the modal using modalContext
               },
+              child: const Text("Update Event"),
             ),
           ],
         ),
@@ -127,8 +127,16 @@ showEventModal(String eventID, String title, String description, BuildContext co
 
 
 
-
 }
+
+
+
+
+
+
+
+
+
 
 class _FloatingActionButtonWidget extends StatefulWidget {
   const _FloatingActionButtonWidget({Key? key}) : super(key: key);
