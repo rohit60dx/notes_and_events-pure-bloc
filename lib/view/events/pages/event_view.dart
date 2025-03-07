@@ -167,6 +167,8 @@ class _FloatingActionButtonWidgetState
                       context
                           .read<EventBloc>()
                           .add(EventEventAdd(event: event));
+                          _titleController.clear();
+                          _descriptionController.clear();
                       Navigator.pop(context);
                     },
                   )
