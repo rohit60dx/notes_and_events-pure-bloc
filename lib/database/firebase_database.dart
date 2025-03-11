@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:notes_and_events/repository/event/model/event_entity.dart';
 
 class FirebaseDatabase {
@@ -13,8 +14,8 @@ class FirebaseDatabase {
     await FirebaseFirestore.instance
         .collection('events')
         .add(event.toJson())
-        .then((value) => print('Event Added'))
-        .catchError((error) => print('Failed to add event: $error'));
+        .then((value) => debugPrint('Event Added'))
+        .catchError((error) => debugPrint('Failed to add event: $error'));
   }
 
   Future<void> updateEvent(EventEntity event) async {
@@ -27,8 +28,8 @@ class FirebaseDatabase {
         .collection('events')
         .doc(query.docs.first.id)
         .update(event.toJson())
-        .then((_) => print('Event Updated'))
-        .catchError((error) => print('Failed to update event: $error'));
+        .then((_) => debugPrint('Event Updated'))
+        .catchError((error) => debugPrint('Failed to update event: $error'));
   }
 
   Future<void> deleteById(String id) async {

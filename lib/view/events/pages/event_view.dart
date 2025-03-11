@@ -32,7 +32,7 @@ class EventView extends StatelessWidget {
 }
 
 class _EventListWidget extends StatelessWidget {
-  _EventListWidget({
+  const _EventListWidget({
     Key? key,
     required this.events,
   }) : super(key: key);
